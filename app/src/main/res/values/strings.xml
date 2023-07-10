@@ -3,4 +3,8 @@
     <string name="back_icon">Back Icon</string>
     <string name="pizza">Pizza</string>
     <string name="favorites">Favorites</string>
+    <string name="plate">Plate</string>
+    <string name="pizza_bread">Pizza Bread</string>
+    <string name="_17">$17</string>
+    <string name="customize_your_pizza">Customize Your Pizza</string>
 </resources>
