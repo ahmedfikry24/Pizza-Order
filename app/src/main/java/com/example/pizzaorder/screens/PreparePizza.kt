@@ -3,6 +3,7 @@ package com.example.pizzaorder.screens
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +34,7 @@ import com.example.pizzaorder.composables.AppBar
 import com.example.pizzaorder.composables.ButtonAddToCart
 import com.example.pizzaorder.composables.HorizontalSpacer
 import com.example.pizzaorder.composables.IngredientImage
-import com.example.pizzaorder.composables.PizzaSize
+import com.example.pizzaorder.composables.ButtonPizzaSize
 import com.example.pizzaorder.composables.VerticalSpacer
 import com.example.pizzaorder.screens.uiState.PreparePizzaUiState
 import com.example.pizzaorder.ui.theme.size200
@@ -51,7 +52,7 @@ fun PreparePizzaScreen(
     viewModel: PreparePizzaViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    PreparePizzaContent(padding, state,viewModel::onClickIngredient)
+    PreparePizzaContent(padding, state, viewModel::onClickIngredient)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -59,7 +60,7 @@ fun PreparePizzaScreen(
 fun PreparePizzaContent(
     padding: PaddingValues,
     state: PreparePizzaUiState,
-    onClickIngredient :(Boolean)-> Unit,
+    onClickIngredient: (Boolean) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -93,11 +94,11 @@ fun PreparePizzaContent(
         )
         VerticalSpacer(height = space16)
         Row {
-            PizzaSize("S", isSelected = true) {}
+            ButtonPizzaSize("S", isSelected = true) {}
             HorizontalSpacer(width = space16)
-            PizzaSize("M", isSelected = false) {}
+            ButtonPizzaSize("M", isSelected = false) {}
             HorizontalSpacer(width = space16)
-            PizzaSize("L", isSelected = false) {}
+            ButtonPizzaSize("L", isSelected = false) {}
         }
         VerticalSpacer(height = space40)
         Column(Modifier.fillMaxWidth()) {
@@ -108,15 +109,17 @@ fun PreparePizzaContent(
                 color = Color.LightGray,
                 fontWeight = FontWeight.Medium
             )
-            LazyRow(contentPadding = PaddingValues(space16)) {
+            LazyRow(
+                contentPadding = PaddingValues(space16),
+                horizontalArrangement = Arrangement.spacedBy(space20)
+            ) {
                 items(state.ingredients.size) {
-                    var isSelected by remember { mutableStateOf(false) }
+                    var isSelected by rememberSaveable { mutableStateOf(false) }
                     IngredientImage(
                         imageId = state.ingredients[it],
-                        isSelected = state.isIngredientSelected[it],
-                        onClick = { }
+                        isSelected = isSelected,
+                        onClick = {isSelected = !isSelected }
                     )
-                    HorizontalSpacer(width = space20)
                 }
             }
         }
