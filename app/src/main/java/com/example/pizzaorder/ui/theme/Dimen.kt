@@ -18,6 +18,7 @@ val text16 = 16.sp
 val text14 = 14.sp
 
 val size40 = 40.dp
+val size20 = 20.dp
 val size50 = 50.dp
 val size56 = 56.dp
 val size70 = 70.dp
