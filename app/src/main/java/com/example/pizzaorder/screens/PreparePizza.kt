@@ -21,9 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -65,9 +62,8 @@ fun PreparePizzaContent(
     padding: PaddingValues,
     state: PreparePizzaUiState,
     pagerState: PagerState,
-    onClickIngredient: (Int, Int, Boolean) -> Unit,
+    onClickIngredient: (Int, Int) -> Unit,
 ) {
-    var remember by rememberSaveable { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -100,7 +96,7 @@ fun PreparePizzaContent(
         )
         VerticalSpacer(height = space16)
         Row {
-            ButtonPizzaSize("S", isSelected = true) { remember = !remember }
+            ButtonPizzaSize("S", isSelected = true) {}
             HorizontalSpacer(width = space16)
             ButtonPizzaSize("M", isSelected = false) {}
             HorizontalSpacer(width = space16)
@@ -120,17 +116,10 @@ fun PreparePizzaContent(
                 horizontalArrangement = Arrangement.spacedBy(space20)
             ) {
                 items(state.pizza.size) {
-
                     IngredientImage(
-                        imageId = state.pizza[it].ingredients[it].ingredient,
-                        isSelected = state.pizza[it].ingredients[it].isSelected,
-                        onClick = {
-                            onClickIngredient(
-                                state.pizza[pagerState.currentPage].bread,
-                                state.pizza[it].ingredients[it].ingredient,
-                                !state.pizza[it].ingredients[it].isSelected
-                            )
-                        }
+                        imageId = state.pizza[pagerState.currentPage].ingredients[it].ingredient,
+                        isSelected = state.pizza[pagerState.currentPage].ingredients[it].isSelected,
+                        onClick = { onClickIngredient(pagerState.currentPage, it) }
                     )
                 }
             }
