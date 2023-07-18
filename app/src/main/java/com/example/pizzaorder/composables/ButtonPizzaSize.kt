@@ -15,7 +15,7 @@ import com.example.pizzaorder.ui.theme.text18
 import com.example.pizzaorder.ui.theme.white
 
 @Composable
-fun ButtonPizzaSize(text: String, isSelected: Boolean, onClick: () -> Unit) {
+fun TextPizzaSize(text: String, isSelected: Boolean, onClick: () -> Unit) {
     TextButton(
         onClick = onClick,
         modifier = Modifier.size(size50),
@@ -23,8 +23,8 @@ fun ButtonPizzaSize(text: String, isSelected: Boolean, onClick: () -> Unit) {
         colors = ButtonDefaults.buttonColors(white),
         elevation = if (isSelected) ButtonDefaults.buttonElevation(space4) else ButtonDefaults.buttonElevation()
     ) {
-            Text(
-                text = text, fontSize = text18, color = Color.Black, fontWeight = FontWeight.Medium
-            )
+        Text(
+            text = text, fontSize = text18, color = Color.Black, fontWeight = FontWeight.Medium
+        )
     }
 }

@@ -31,16 +31,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pizzaorder.R
 import com.example.pizzaorder.composables.AppBar
 import com.example.pizzaorder.composables.ButtonAddToCart
-import com.example.pizzaorder.composables.ButtonPizzaSize
-import com.example.pizzaorder.composables.HorizontalSpacer
 import com.example.pizzaorder.composables.IngredientImage
+import com.example.pizzaorder.composables.TextPizzaSize
 import com.example.pizzaorder.composables.VerticalSpacer
+import com.example.pizzaorder.screens.uiState.PizzaSizeState
 import com.example.pizzaorder.screens.uiState.PreparePizzaUiState
 import com.example.pizzaorder.ui.theme.size200
 import com.example.pizzaorder.ui.theme.size250
 import com.example.pizzaorder.ui.theme.space16
 import com.example.pizzaorder.ui.theme.space20
 import com.example.pizzaorder.ui.theme.space40
+import com.example.pizzaorder.ui.theme.space8
 import com.example.pizzaorder.ui.theme.text14
 import com.example.pizzaorder.ui.theme.text24
 import com.example.pizzaorder.ui.theme.white87
@@ -53,7 +54,13 @@ fun PreparePizzaScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val pagerState = rememberPagerState()
-    PreparePizzaContent(padding, state, pagerState, viewModel::onClickIngredient)
+    PreparePizzaContent(
+        padding = padding,
+        state = state,
+        pagerState = pagerState,
+        onClickIngredient = viewModel::onClickIngredient,
+        onClickSize = viewModel::onClickSize
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -63,6 +70,7 @@ fun PreparePizzaContent(
     state: PreparePizzaUiState,
     pagerState: PagerState,
     onClickIngredient: (Int, Int) -> Unit,
+    onClickSize: (Int, PizzaSizeState) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -80,6 +88,7 @@ fun PreparePizzaContent(
                 contentDescription = stringResource(R.string.plate)
             )
             HorizontalPager(pageCount = state.pizza.size, state = pagerState) {
+
                 Image(
                     modifier = Modifier.size(size200),
                     painter = painterResource(state.pizza[it].bread),
@@ -95,12 +104,17 @@ fun PreparePizzaContent(
             fontWeight = FontWeight.Bold
         )
         VerticalSpacer(height = space16)
-        Row {
-            ButtonPizzaSize("S", isSelected = true) {}
-            HorizontalSpacer(width = space16)
-            ButtonPizzaSize("M", isSelected = false) {}
-            HorizontalSpacer(width = space16)
-            ButtonPizzaSize("L", isSelected = false) {}
+        Row(horizontalArrangement = Arrangement.spacedBy(space8)) {
+            TextPizzaSize(
+                text = "S",
+                isSelected = state.pizza[pagerState.currentPage].size.isSelected,
+                onClick = {
+                    onClickSize(
+                        pagerState.currentPage,
+                        state.pizza[pagerState.currentPage].size.state
+                    )
+                }
+            )
         }
         VerticalSpacer(height = space40)
         Column(Modifier.fillMaxWidth()) {
