@@ -26,6 +26,14 @@ class PreparePizzaViewModel : ViewModel() {
     }
 
     fun onClickSize(pizzaIndex: Int, state: PizzaSizeState) {
-
+        _state.update {
+            it.copy(
+                pizza = _state.value.pizza.toMutableList().apply {
+                    this[pizzaIndex] = this[pizzaIndex].copy(
+                        size = state
+                    )
+                }
+            )
+        }
     }
 }
