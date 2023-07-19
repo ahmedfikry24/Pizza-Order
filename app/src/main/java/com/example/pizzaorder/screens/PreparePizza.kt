@@ -1,5 +1,10 @@
 package com.example.pizzaorder.screens
 
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,10 +42,12 @@ import com.example.pizzaorder.composables.TextPizzaSize
 import com.example.pizzaorder.composables.VerticalSpacer
 import com.example.pizzaorder.screens.uiState.PizzaSizeState
 import com.example.pizzaorder.screens.uiState.PreparePizzaUiState
-import com.example.pizzaorder.ui.theme.size200
+import com.example.pizzaorder.ui.theme.size180
+import com.example.pizzaorder.ui.theme.size230
 import com.example.pizzaorder.ui.theme.size250
 import com.example.pizzaorder.ui.theme.space16
 import com.example.pizzaorder.ui.theme.space20
+import com.example.pizzaorder.ui.theme.space4
 import com.example.pizzaorder.ui.theme.space40
 import com.example.pizzaorder.ui.theme.space8
 import com.example.pizzaorder.ui.theme.text14
@@ -63,7 +71,7 @@ fun PreparePizzaScreen(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun PreparePizzaContent(
     padding: PaddingValues,
@@ -72,6 +80,16 @@ fun PreparePizzaContent(
     onClickIngredient: (Int, Int) -> Unit,
     onClickSize: (Int, PizzaSizeState) -> Unit
 ) {
+
+    val currentPage = pagerState.currentPage
+    val size by animateFloatAsState(
+        targetValue = when (state.pizza[currentPage].size) {
+            PizzaSizeState.SMALL -> 0.85f
+            PizzaSizeState.MEDIUM -> 0.95f
+            PizzaSizeState.LARGE -> 1.05f
+        }
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,12 +106,26 @@ fun PreparePizzaContent(
                 contentDescription = stringResource(R.string.plate)
             )
             HorizontalPager(pageCount = state.pizza.size, state = pagerState) {
-
-                Image(
-                    modifier = Modifier.size(size200),
-                    painter = painterResource(state.pizza[it].bread),
-                    contentDescription = stringResource(R.string.pizza_bread)
-                )
+                Box(modifier = Modifier.scale(size), contentAlignment = Alignment.Center) {
+                    Image(
+                        modifier = Modifier.size(size230),
+                        painter = painterResource(state.pizza[currentPage].bread),
+                        contentDescription = stringResource(R.string.pizza_bread)
+                    )
+                    state.pizza[currentPage].ingredients.forEach {ingredient->
+                        androidx.compose.animation.AnimatedVisibility(
+                            visible = ingredient.isSelected,
+                            enter = scaleIn(initialScale = 3f) + fadeIn(),
+                            exit = ExitTransition.None
+                        ) {
+                            Image(
+                                modifier = Modifier.size(size180),
+                                painter = painterResource(id = ingredient.ingredientGroup),
+                                contentDescription = null,
+                            )
+                        }
+                    }
+                }
             }
         }
         VerticalSpacer(height = space16)
@@ -107,11 +139,31 @@ fun PreparePizzaContent(
         Row(horizontalArrangement = Arrangement.spacedBy(space8)) {
             TextPizzaSize(
                 text = "S",
-                isSelected = state.pizza[pagerState.currentPage].size.isSelected,
+                isSelected = state.pizza[currentPage].size == PizzaSizeState.SMALL,
                 onClick = {
                     onClickSize(
-                        pagerState.currentPage,
-                        state.pizza[pagerState.currentPage].size.state
+                        currentPage,
+                        PizzaSizeState.SMALL
+                    )
+                }
+            )
+            TextPizzaSize(
+                text = "M",
+                isSelected = state.pizza[currentPage].size == PizzaSizeState.MEDIUM,
+                onClick = {
+                    onClickSize(
+                        currentPage,
+                        PizzaSizeState.MEDIUM
+                    )
+                }
+            )
+            TextPizzaSize(
+                text = "L",
+                isSelected = state.pizza[currentPage].size == PizzaSizeState.LARGE,
+                onClick = {
+                    onClickSize(
+                        currentPage,
+                        PizzaSizeState.LARGE
                     )
                 }
             )
@@ -131,9 +183,9 @@ fun PreparePizzaContent(
             ) {
                 items(state.pizza.size) {
                     IngredientImage(
-                        imageId = state.pizza[pagerState.currentPage].ingredients[it].ingredient,
-                        isSelected = state.pizza[pagerState.currentPage].ingredients[it].isSelected,
-                        onClick = { onClickIngredient(pagerState.currentPage, it) }
+                        imageId = state.pizza[currentPage].ingredients[it].ingredient,
+                        isSelected = state.pizza[currentPage].ingredients[it].isSelected,
+                        onClick = { onClickIngredient(currentPage, it) }
                     )
                 }
             }
