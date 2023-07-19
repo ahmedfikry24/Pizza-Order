@@ -6,57 +6,57 @@ data class PreparePizzaUiState(
     val pizza: List<PizzaUiState> = listOf(
         PizzaUiState(
             R.drawable.bread_1,
-            size = PizzaSizeUiState( state = PizzaSizeState.SMALL),
+            size =  PizzaSizeState.SMALL,
             ingredients = listOf(
-                IngredientsUiState(R.drawable.basil_3, false),
-                IngredientsUiState(R.drawable.onion_3, false),
-                IngredientsUiState(R.drawable.broccoli_3, false),
-                IngredientsUiState(R.drawable.mushroom_3, false),
-                IngredientsUiState(R.drawable.sausage_3, false),
+                IngredientsUiState(R.drawable.basil_3, R.drawable.group_basil,false),
+                IngredientsUiState(R.drawable.onion_3, R.drawable.group_onion,false),
+                IngredientsUiState(R.drawable.broccoli_3, R.drawable.group_broccoli,false),
+                IngredientsUiState(R.drawable.mushroom_3,R.drawable.group_mushroom, false),
+                IngredientsUiState(R.drawable.sausage_3, R.drawable.group_sausage,false),
             ),
         ),
         PizzaUiState(
             R.drawable.bread_2,
-            size = PizzaSizeUiState( state = PizzaSizeState.SMALL),
+            size =  PizzaSizeState.SMALL,
             ingredients = listOf(
-                IngredientsUiState(R.drawable.basil_3, false),
-                IngredientsUiState(R.drawable.onion_3, false),
-                IngredientsUiState(R.drawable.broccoli_3, false),
-                IngredientsUiState(R.drawable.mushroom_3, false),
-                IngredientsUiState(R.drawable.sausage_3, false),
+                IngredientsUiState(R.drawable.basil_3, R.drawable.group_basil,false),
+                IngredientsUiState(R.drawable.onion_3, R.drawable.group_onion,false),
+                IngredientsUiState(R.drawable.broccoli_3, R.drawable.group_broccoli,false),
+                IngredientsUiState(R.drawable.mushroom_3,R.drawable.group_mushroom, false),
+                IngredientsUiState(R.drawable.sausage_3, R.drawable.group_sausage,false),
             ),
         ),
         PizzaUiState(
             R.drawable.bread_3,
-            size = PizzaSizeUiState( state = PizzaSizeState.SMALL),
+            size =  PizzaSizeState.SMALL,
             ingredients = listOf(
-                IngredientsUiState(R.drawable.basil_3, false),
-                IngredientsUiState(R.drawable.onion_3, false),
-                IngredientsUiState(R.drawable.broccoli_3, false),
-                IngredientsUiState(R.drawable.mushroom_3, false),
-                IngredientsUiState(R.drawable.sausage_3, false),
+                IngredientsUiState(R.drawable.basil_3, R.drawable.group_basil,false),
+                IngredientsUiState(R.drawable.onion_3, R.drawable.group_onion,false),
+                IngredientsUiState(R.drawable.broccoli_3, R.drawable.group_broccoli,false),
+                IngredientsUiState(R.drawable.mushroom_3,R.drawable.group_mushroom, false),
+                IngredientsUiState(R.drawable.sausage_3, R.drawable.group_sausage,false),
             ),
         ),
         PizzaUiState(
             R.drawable.bread_4,
-            size = PizzaSizeUiState( state = PizzaSizeState.SMALL),
+            size =  PizzaSizeState.SMALL,
             ingredients = listOf(
-                IngredientsUiState(R.drawable.basil_3, false),
-                IngredientsUiState(R.drawable.onion_3, false),
-                IngredientsUiState(R.drawable.broccoli_3, false),
-                IngredientsUiState(R.drawable.mushroom_3, false),
-                IngredientsUiState(R.drawable.sausage_3, false),
+                IngredientsUiState(R.drawable.basil_3, R.drawable.group_basil,false),
+                IngredientsUiState(R.drawable.onion_3, R.drawable.group_onion,false),
+                IngredientsUiState(R.drawable.broccoli_3, R.drawable.group_broccoli,false),
+                IngredientsUiState(R.drawable.mushroom_3,R.drawable.group_mushroom, false),
+                IngredientsUiState(R.drawable.sausage_3, R.drawable.group_sausage,false),
             ),
         ),
         PizzaUiState(
             R.drawable.bread_5,
-            size = PizzaSizeUiState( state = PizzaSizeState.SMALL),
+            size =  PizzaSizeState.SMALL,
             ingredients = listOf(
-                IngredientsUiState(R.drawable.basil_3, false),
-                IngredientsUiState(R.drawable.onion_3, false),
-                IngredientsUiState(R.drawable.broccoli_3, false),
-                IngredientsUiState(R.drawable.mushroom_3, false),
-                IngredientsUiState(R.drawable.sausage_3, false),
+                IngredientsUiState(R.drawable.basil_3, R.drawable.group_basil,false),
+                IngredientsUiState(R.drawable.onion_3, R.drawable.group_onion,false),
+                IngredientsUiState(R.drawable.broccoli_3, R.drawable.group_broccoli,false),
+                IngredientsUiState(R.drawable.mushroom_3,R.drawable.group_mushroom, false),
+                IngredientsUiState(R.drawable.sausage_3, R.drawable.group_sausage,false),
             ),
         ),
     ),
@@ -64,17 +64,13 @@ data class PreparePizzaUiState(
 
 data class PizzaUiState(
     val bread: Int,
-    val size: PizzaSizeUiState,
+    val size: PizzaSizeState,
     val ingredients: List<IngredientsUiState>,
-)
-
-data class PizzaSizeUiState(
-    val state: PizzaSizeState = PizzaSizeState.SMALL,
-    val isSelected: Boolean = false,
 )
 
 data class IngredientsUiState(
     val ingredient: Int,
+    val ingredientGroup:Int,
     var isSelected: Boolean = false
 )
 
