@@ -3,10 +3,10 @@ package com.example.pizzaorder.ui.theme
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-val space4 = 4.dp
 val space8 = 8.dp
 val space16 = 16.dp
 val space20 = 20.dp
+val space25 = 25.dp
 val space40 = 40.dp
 
 val text24 = 24.sp
@@ -15,6 +15,7 @@ val text16 = 16.sp
 val text14 = 14.sp
 
 val size50 = 50.dp
+val size40 = 40.dp
 val size56 = 56.dp
 val size70 = 70.dp
 val size168 = 168.dp
