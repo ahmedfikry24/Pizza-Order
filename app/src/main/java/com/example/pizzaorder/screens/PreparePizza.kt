@@ -47,7 +47,6 @@ import com.example.pizzaorder.ui.theme.size230
 import com.example.pizzaorder.ui.theme.size250
 import com.example.pizzaorder.ui.theme.space16
 import com.example.pizzaorder.ui.theme.space20
-import com.example.pizzaorder.ui.theme.space4
 import com.example.pizzaorder.ui.theme.space40
 import com.example.pizzaorder.ui.theme.space8
 import com.example.pizzaorder.ui.theme.text14
@@ -105,7 +104,7 @@ fun PreparePizzaContent(
                 painter = painterResource(R.drawable.plate),
                 contentDescription = stringResource(R.string.plate)
             )
-            HorizontalPager(pageCount = state.pizza.size, state = pagerState) {
+            HorizontalPager( modifier =Modifier.fillMaxWidth(),pageCount = state.pizza.size, state = pagerState) {
                 Box(modifier = Modifier.scale(size), contentAlignment = Alignment.Center) {
                     Image(
                         modifier = Modifier.size(size230),
@@ -114,7 +113,7 @@ fun PreparePizzaContent(
                     )
                     state.pizza[currentPage].ingredients.forEach {ingredient->
                         androidx.compose.animation.AnimatedVisibility(
-                            visible = ingredient.isSelected,
+                            visible = ingredient.isSelected && !pagerState.isScrollInProgress,
                             enter = scaleIn(initialScale = 3f) + fadeIn(),
                             exit = ExitTransition.None
                         ) {
