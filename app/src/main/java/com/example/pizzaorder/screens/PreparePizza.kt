@@ -132,11 +132,11 @@ fun PreparePizzaContent(
                 modifier = Modifier.fillMaxWidth(),
                 pageCount = state.pizza.size,
                 state = pagerState
-            ) {
+            ) { page->
                 Box(modifier = Modifier.scale(size), contentAlignment = Alignment.Center) {
                     Image(
                         modifier = Modifier.size(size230),
-                        painter = painterResource(state.pizza[currentPage].bread),
+                        painter = painterResource(state.pizza[page].bread),
                         contentDescription = stringResource(R.string.pizza_bread)
                     )
                     state.pizza[currentPage].ingredients.forEach { ingredient ->
